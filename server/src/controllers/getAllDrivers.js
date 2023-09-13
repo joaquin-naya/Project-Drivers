@@ -3,7 +3,7 @@ const { Driver, Team } = require("../db");
 const noImage = "https://i.imgur.com/Ks7SbZt.png";
 let allDrivers = [];
 
-const getAllDrivers = async (name) => {
+const getAllDrivers = async () => {
   const allDriversDb = await Driver.findAll({
     include: {
       model: Team,
@@ -25,23 +25,11 @@ const getAllDrivers = async (name) => {
       nationality: driver.nationality,
       dob: driver.dob,
       teams: driver.teams,
+      driverNameSum: `${driver.name.forename} ${driver.name.surname}`,
     };
   });
 
   allDrivers = [...allDriversApi, ...allDriversDb];
-
-  if (name) {
-    driversByName = allDrivers.filter((driver) =>
-      driver.forename.toLowerCase().startsWith(name.toLowerCase())
-    );
-    if (driversByName.length) {
-      // console.log(
-      //     driversByName.slice(0, 15).map((driver, index) => `${index + 1}. ${driver.forename} ${driver.surname}`));
-      return driversByName.slice(0, 15);
-    } else {
-      throw new Error(`No match found for name: ${name}`);
-    }
-  }
 
   return allDrivers;
 };
