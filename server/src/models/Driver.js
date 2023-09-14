@@ -36,9 +36,12 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      createInDb: {
+      createdInDb: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+      },
+      driverNameSum: {
+        type: DataTypes.STRING,
       },
     },
     { timestamps: false, freezeTableName: true }
