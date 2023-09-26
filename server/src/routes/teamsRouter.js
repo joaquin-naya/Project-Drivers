@@ -1,5 +1,5 @@
+const { allTeamsHr } = require("../handlers/xindex");
 const { Router } = require("express");
-const { allTeamsHr } = require("../handlers/index");
 
 const teamsRouter = Router();
 teamsRouter.get("/", allTeamsHr);

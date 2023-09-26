@@ -9,53 +9,33 @@ const postDriver = async (
   dob,
   arrTeams
 ) => {
-  console.log(
-    forename,
-    surname,
-    description,
-    image,
-    nationality,
-    dob,
-    arrTeams
-  ); //parametros
-  const existingDriver = await Driver.findOne({
-    //verificar si ya existe un conductor con fsname
-    where: {
-      forename,
-      surname,
-    },
-  });
-  //error si se encuentra
+  const existingDriver = await Driver.findOne({ where: { forename, surname } });
+
   if (existingDriver) {
-    const error = new Error("El piloto ya existe");
+    const error = new Error("El conductor ya existe");
     error.status = 409;
     throw error;
   }
 
   const team = await Promise.all(
-    // realizar operaciones asincrónicas en paralelo para cada elemento del arreglo arrTeams
     arrTeams.map(async (teamName) => {
-      const [result] = await Team.findOrCreate({
-        //se busca o crea un equipo en la base de datos
-        where: { name: teamName },
-      });
+      //extrae asincrónicamente cada elemento del arreglo arrTeams
+      const [result] = await Team.findOrCreate({ where: { name: teamName } }); //se busca o crea un equipo en la base de datos
       return result.id; //extraemos el resultado de id y lo almacenamos.
     })
   );
 
   const newDriver = await Driver.create({
-    //registro del conductor con parametros
     forename,
     surname,
     description,
     image,
     nationality,
     dob,
-    driverNameSum: `${forename} ${surname}`,
   });
 
-  await newDriver.addTeams(team);
-  //addT metodo utilizado para asociar los equipos al nuevo conductor creado con el arreglo team
+  await newDriver.addTeams(team); //addTeams metodo utilizado para asociar los equipos al nuevo conductor creado con el arreglo team
+
   return newDriver;
 };
 

@@ -40,9 +40,6 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
-      driverNameSum: {
-        type: DataTypes.STRING,
-      },
     },
     { timestamps: false, freezeTableName: true }
   );

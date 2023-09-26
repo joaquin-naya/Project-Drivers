@@ -1,5 +1,5 @@
-const { Router } = require("express");
 const { allDriversHr, getByIdHr, postDriverHr } = require("../handlers/index");
+const { Router } = require("express");
 
 const driversRouter = Router();
 driversRouter.get("/", allDriversHr);

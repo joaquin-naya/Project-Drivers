@@ -20,6 +20,7 @@ const getAllTeams = async () => {
 
       const teamObjects = driverTeams.map((name) => ({ name }));
       await Team.bulkCreate(teamObjects);
+
       return driverTeams.sort();
     } catch (error) {
       console.error("Error al obtener los equipos de la API:", error);
