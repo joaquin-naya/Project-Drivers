@@ -1,8 +1,10 @@
-.container{
-    border: 1px solid black;
-    display: flex;
+.container {
+    width: 80vw;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     flex-direction: row;
-    border-radius: 15px;
+    grid-gap: 20px;
     flex-wrap: wrap;
-    gap: 1em;
-}
+  }
+

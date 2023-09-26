@@ -4,6 +4,7 @@ const postDriverHr = async (req, res) => {
   const { forename, surname, description, image, nationality, dob, teams } =
     req.body;
   try {
+    const arrTeams = teams.split(", ");
     const newDriver = await postDriver(
       forename,
       surname,
@@ -11,7 +12,7 @@ const postDriverHr = async (req, res) => {
       image,
       nationality,
       dob,
-      teams
+      arrTeams
     );
     res.status(200).json(newDriver);
   } catch (error) {
@@ -20,3 +21,25 @@ const postDriverHr = async (req, res) => {
 };
 
 module.exports = postDriverHr;
+// const postDriver = require("../controllers/postDriver");
+
+// const postDriverHr = async (req, res) => {
+//   const { forename, surname, description, image, nationality, dob, teams } =
+//     req.body;
+//   try {
+//     const newDriver = await postDriver(
+//       forename,
+//       surname,
+//       description,
+//       image,
+//       nationality,
+//       dob,
+//       teams
+//     );
+//     res.status(200).json(newDriver);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// };
+
+// module.exports = postDriverHr;

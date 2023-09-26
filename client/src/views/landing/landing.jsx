@@ -1,10 +1,15 @@
-import { NavLink } from "react-router-dom"
+import { Link } from "react-router-dom"
+import styles from "./landing.module.css"
 
 export const Landing = () => {
     return (
-        <>
-            <h1>Esta es la vista de Landing...</h1>
-            <h2><NavLink to="/home">Entrar al sitio</NavLink></h2>
-        </>
+        <div>
+        <div className={styles.linkContainer}>
+          <h1>DRIVERS PROJECT</h1>
+          <Link to="/home" className={styles.link}>
+            Entrar...
+          </Link>
+        </div>
+      </div>
     )
 }
