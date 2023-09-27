@@ -1,7 +1,7 @@
 import styles from './searchBar.module.css';
 import { useState } from 'react';
 
-export function SearchBar({ onSearch, isChecked, handleCheckboxChange }) { // Recibe el estado del checkbox y la función de cambio como props
+export const SearchBar = ({ onSearch, isChecked, handleCheckboxChange }) => { // Recibe el estado del checkbox y la función de cambio como props
   const [name, setName] = useState("");
 
   const handleSearch = (event) => {

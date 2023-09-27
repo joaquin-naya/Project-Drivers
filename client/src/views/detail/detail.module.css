@@ -29,16 +29,6 @@
       opacity: 0.5;
       pointer-events: none;
     }
-    .updateButton {
-      color: black;
-      background-color: yellow;
-      text-decoration: none;
-      font-size: 25px;
-      font-weight: bold;
-      padding: 3px;
-      margin-right: 15px;
-      border-radius: 30%;
-    }
     .updateButton[disabled] {
       opacity: 0.5;
       pointer-events: none;
@@ -47,7 +37,7 @@
       margin-top: -15px;
       max-width: fit-content;
       color: rgb(255, 255, 255);
-      background-color: rgb(221, 0, 0);
+      background-color: cyan;
       text-align: center; /* Centra el contenido horizontalmente */
       margin-left: auto; /* Centra el contenido horizontalmente */
       margin-right: auto; /* Centra el contenido horizontalmente */

@@ -10,39 +10,28 @@
     transform: translateZ(0);
     transition: transform 0.25s ease-out;
     align-items: center;
-    
-    /* flex-start */
   }
   
-  .card_container:hover {
-    transform: scale(1.05);
-  }
+.card_container:hover {
+  transform: scale(1.05);
+}
   
-  .image {
-    width: 210px;
-    height: 210px;
-    border-radius: 50%;
-    
-  }
+.image {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;  
+}
   
-  .teams {
-    width: 180px;
-    color: black;
-    
-  }
+.teams {
+  width: 180px;
+  color: black;
+}
   
-  .nombre {
-    color: rgb(255, 255, 255);
-    background-color: black
-    
-  }
-  .fecha {
-    color: black;
-  }
-  
-  /* .card{
-    border: 1px solid black;
-    width: fit-content;
-    height: fit-content;
-    border-radius: 10px;
-} */
+.nombre {
+  color: rgb(255, 255, 255);
+  background-color: black
+}
+
+.fecha {
+  color: black;
+}

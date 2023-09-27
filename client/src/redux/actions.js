@@ -1,14 +1,14 @@
 export const GET_DRIVERS_BY_NAME = "GET_DRIVERS_BY_NAME";
+export const SEARCH_DRIVERS = "SEARCH_DRIVERS";
 export const CREATE_DRIVER = "CREATE_DRIVER";
+export const FILTER_ORIGIN = "FILTER_ORIGIN";
+export const FILTER_TEAMS = "FILTER_TEAMS";
 export const GET_DETAIL = "GET_DETAIL";
 export const GET_TEAMS = "GET_TEAMS";
+export const SET_ERROR = "SET_ERROR";
 export const GET_ALL = "GET_ALL";
 export const ORDER = "ORDER";
-export const FILTER_TEAMS = "FILTER_TEAMS";
 export const RESET = "RESET";
-export const FILTER_ORIGIN = "FILTER_ORIGIN";
-export const SEARCH_DRIVERS = "SEARCH_DRIVERS";
-export const SET_ERROR = "SET_ERROR";
 import axios from "axios";
 
 export const getAll = () => {
@@ -25,7 +25,7 @@ export const getDetail = (id) => {
   };
 };
 
-export function getTeams() {
+export const getTeams = () => {
   return async function (dispatch) {
     try {
       const response = await axios("http://localhost:3001/teams");
@@ -34,10 +34,10 @@ export function getTeams() {
         payload: response.data,
       });
     } catch (error) {
-      // Manejo de errores
+      alert(error);
     }
   };
-}
+};
 
 export const createDriver = (payload) => {
   return async function (dispatch) {
@@ -59,7 +59,7 @@ export const createDriver = (payload) => {
   };
 };
 
-export function getDriversByName(name) {
+export const getDriversByName = (name) => {
   return async function (dispatch) {
     try {
       const response = await axios(
@@ -73,43 +73,45 @@ export function getDriversByName(name) {
       return dispatch({});
     }
   };
-}
+};
 
-export function orderDrivers(orderType) {
+export const orderDrivers = (orderType) => {
   return {
     type: ORDER,
     payload: orderType,
   };
-}
+};
 
-export function filterTeams(team) {
+export const filterTeams = (team) => {
   return {
     type: FILTER_TEAMS,
     payload: team,
   };
-}
+};
 
-export function reset() {
+export const reset = () => {
   return {
     type: RESET,
   };
-}
+};
 
-export function filterOrigin(origin) {
+export const filterOrigin = (origin) => {
   return {
     type: FILTER_ORIGIN,
     payload: origin,
   };
-}
+};
 
-export function searchDrivers(name, isChecked) {
+export const searchDrivers = (name, isChecked) => {
   return {
     type: SEARCH_DRIVERS,
     payload: { name, isChecked },
   };
-}
+};
 
-export const setError = (errorMessage) => ({
-  type: SET_ERROR,
-  payload: errorMessage,
-});
+export const setError = (errorMessage) => {
+  return {
+    type: SET_ERROR,
+    payload: errorMessage,
+  };
+};

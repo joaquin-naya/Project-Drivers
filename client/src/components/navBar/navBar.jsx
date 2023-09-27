@@ -3,39 +3,39 @@ import { SearchBar } from "../searchBar/searchBar";
 import { NavLink } from 'react-router-dom';
 import styles from './NavBar.module.css';
 
-export function NavBar({ 
-  handleOrder, //manejar la seleccion de pedidos
-  selectedOrder, //el valor del pedido actualmente seleccionado 
-  selectedTeam, //el valor del equipo actualmente seleccionado.
-  selectedOrigin, //el valor de origen actualmente seleccionado.
-  teams, //una matriz de equipos para filtrar.
-  handlerFilterTeam, //función para manejar la selección del filtro del equipo.
-  resetHandler, //función para manejar la acción de reinicio.
-  handlerFilterOrigin, // función para manejar la selección del filtro de origen.
-  onSearch //función para manejar la acción de búsqueda.
-}) {
-  const [resetSelectOrder, setResetSelectOrder] = useState(false);
+export const NavBar = ({ 
+  handleOrder,
+  selectedOrder, 
+  selectedTeam, 
+  selectedOrigin,
+  teams, 
+  handlerFilterTeam, 
+  resetHandler, 
+  handlerFilterOrigin,
+  onSearch 
+}) => {
   const [isChecked, setIsChecked] = useState(localStorage.getItem("checkedSearch") === "true"); 
+  const [resetSelectOrder, setResetSelectOrder] = useState(false);
 
-  useEffect(() => { //restablecer cuando el estado cuando resetSelectOrder cambia de accesorio
+  useEffect(() => { //restablece el estado cuando resetSelectOrder cambia 
     setResetSelectOrder(false);
   }, [resetHandler]);
 
-  const handleReset = () => { //se llama cuando hacemos click en reset
-    setIsChecked(false); // Reiniciamos 
+  const handleReset = () => { 
+    setIsChecked(false); 
     localStorage.setItem("checkedSearch", false); // Actualiza el estado de la casilla de verificacion y borra localstorage
     setResetSelectOrder(true);
     resetHandler();
   };
 
-  const handleCheckboxChange = () => {//cuando se activa la casilla de verificacion 
+  const handleCheckboxChange = () => {
     const updatedValue = !isChecked;
-    setIsChecked(updatedValue);// Actualiza el iCheck estado 
-    localStorage.setItem("checkedSearch", updatedValue); //almacena el valor actualizado de forma local
+    setIsChecked(updatedValue);// Actualiza el estado isChecked
+    localStorage.setItem("checkedSearch", updatedValue); // Almacena el valor actualizado de forma local
   };
 
   return (
-    <div className={styles.container} >
+    <div className={styles.container}>
       <NavLink to="/home" className={styles.buttonHome}>
         Home
       </NavLink>
@@ -45,8 +45,8 @@ export function NavBar({
       
       <label className={styles.labelraya}> | </label>
       <div className={styles.searchContainer}>
-        <SearchBar onSearch={onSearch} isChecked={isChecked} handleCheckboxChange={handleCheckboxChange} /> {/* Pasamos el estado del checkbox y la función de cambio como props */}
-      </div>
+        
+        <SearchBar onSearch={onSearch} isChecked={isChecked} handleCheckboxChange={handleCheckboxChange} /> 
 
       <button className={styles.buttonLink} onClick={handleReset} title='All filters and sorts will be initialized, showing all drivers.'>
         Reset
@@ -78,19 +78,6 @@ export function NavBar({
         <option value="db">DB</option>
       </select>
     </div>
+  </div>
   );
 }
-
-
-// import { NavLink } from "react-router-dom";
-// import style from "./navBar.module.css"
-
-// export const NavBar = () => {
-//     return (
-//         <div className={style.container}>
-            
-//             <NavLink to="/create">New Driver</NavLink>
-//         </div>
-//     )
-// }
-

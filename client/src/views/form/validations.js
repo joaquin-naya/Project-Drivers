@@ -14,8 +14,6 @@ export const validate = (newDriver) => {
     errors.image = "URL image default";
   }
 
-  //forename
-
   if (!newDriver.forename) {
     errors.ok = false;
     errors.forename = "The forename is required";
@@ -27,7 +25,6 @@ export const validate = (newDriver) => {
     errors.forename = "The maximum length is 25 characters";
   }
 
-  //surname
   if (!newDriver.surname) {
     errors.ok = false;
     errors.surname = "The surname is required";
@@ -39,7 +36,6 @@ export const validate = (newDriver) => {
     errors.surname = "The maximum length is 20 characters";
   }
 
-  //dob
   if (!newDriver.dob) {
     errors.ok = false;
     errors.dob = "The dob is required";
@@ -52,7 +48,6 @@ export const validate = (newDriver) => {
     errors.dob = "The dob only accepts dd/mm/aaaa";
   }
 
-  //nacionalidad
   if (!newDriver.nationality) {
     errors.ok = false;
     errors.nationality = "The surname is required";
@@ -64,14 +59,10 @@ export const validate = (newDriver) => {
     errors.nationality = "The maximum length is 30 characters";
   }
 
-  //descripcion
-
   if (!newDriver.description) {
     errors.ok = false;
     errors.description = "The description is required";
   }
-
-  //tams
 
   if (!newDriver.teams) {
     errors.ok = false;

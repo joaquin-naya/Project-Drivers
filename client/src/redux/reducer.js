@@ -21,17 +21,9 @@ let initialState = {
 export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL:
-      console.log(action.payload);
       return {
         ...state,
-        allDrivers: [...action.payload],
-        filteredDrivers: action.payload,
-        // .map((driver) => ({ ...driver })),
-      };
-
-    case GET_DETAIL:
-      return {
-        ...state,
+        allDrivers: action.payload,
         filteredDrivers: action.payload,
       };
 
@@ -41,30 +33,38 @@ export const reducer = (state = initialState, action) => {
         teams: action.payload,
       };
 
+    case GET_DETAIL:
+      return {
+        ...state,
+        filteredDrivers: action.payload,
+      };
+
     case GET_DRIVERS_BY_NAME:
       return {
         ...state,
         allDrivers: action.payload,
       };
 
+    case SET_ERROR: //actualiza errores
+      return {
+        ...state,
+        error: action.payload,
+      };
+
     case ORDER:
       const orderType = action.payload;
       let sortedDrivers = [...state.filteredDrivers];
       if (orderType === "asc") {
-        //acendente
         sortedDrivers.sort((a, b) => a.forename.localeCompare(b.forename));
       } else if (orderType === "desc") {
-        //desendente
         sortedDrivers.sort((a, b) => b.forename.localeCompare(a.forename));
       } else if (orderType === "nacA") {
-        //reciente
         sortedDrivers.sort((a, b) => {
           const dateA = new Date(a.dob);
           const dateB = new Date(b.dob);
           return dateA - dateB;
         });
       } else if (orderType === "nacD") {
-        //antigua
         sortedDrivers.sort((a, b) => {
           const dateA = new Date(a.dob);
           const dateB = new Date(b.dob);
@@ -79,61 +79,56 @@ export const reducer = (state = initialState, action) => {
     case FILTER_TEAMS:
       const team = action.payload;
       const filteredTeam = state.filteredDrivers.filter((t) => {
-        //en funcion del team valor
         const teamsArray =
           t.teams && t.teams.split(",").map((team) => team.trim()); //comprueba que cada piloto tiene el equipo seleccionado en su team matriz
         return teamsArray && teamsArray.includes(team); //pilotos filtrados
       });
+
       if (!filteredTeam || filteredTeam.length === 0) {
         throw new Error("Not drivers with this team, please press RESET");
       }
+
       return {
         ...state,
         filteredDrivers: filteredTeam,
       };
 
-    case RESET: //restablece la matriz fDrivers copiando todos los controladores en allDri
-      return {
-        ...state,
-        filteredDrivers: [...state.allDrivers],
-      };
-
     case FILTER_ORIGIN:
       const origin = action.payload;
-      let filterxorigin = [...state.filteredDrivers]; //filtra la fD en funcion del origin
+      let filterByOrigin = [...state.filteredDrivers];
 
       if (origin === "api") {
-        filterxorigin = state.filteredDrivers.filter(
+        filterByOrigin = state.filteredDrivers.filter(
           (driver) => !("createdInDb" in driver)
         );
       } else if (origin === "db") {
-        filterxorigin = state.filteredDrivers.filter(
+        filterByOrigin = state.filteredDrivers.filter(
           (driver) => "createdInDb" in driver
         );
-      } //filtra los controladores en función de si se crearon a partir de la API o de la base de datos.
+      }
 
-      if (!filterxorigin || filterxorigin.length === 0) {
+      if (!filterByOrigin || filterByOrigin.length === 0) {
         throw new Error("No drivers with this filter");
       }
 
       return {
         ...state,
-        filteredDrivers: filterxorigin,
+        filteredDrivers: filterByOrigin,
       };
 
     case SEARCH_DRIVERS:
       const isChecked = action.payload.isChecked;
-      const name = action.payload.name; //busqueda de controladores en funcion del name
+      const name = action.payload.name;
 
       let searchResult = [];
       if (isChecked === "all") {
-        //determinamos si la busqueda se realiza en todos los controladores (ischequed = todos)
+        //determinamos si la busqueda se realiza en todos los controladores (isChecked = todos)
         searchResult = state.allDrivers.filter((driver) => {
           return driver.forename.toLowerCase().startsWith(name.toLowerCase());
         });
       } else {
+        //o solo en los controladores filtrados
         searchResult = state.filteredDrivers.filter((driver) => {
-          //o solo en los controladores filtrados
           return driver.forename.toLowerCase().startsWith(name.toLowerCase());
         });
       }
@@ -151,10 +146,10 @@ export const reducer = (state = initialState, action) => {
         filteredDrivers: searchResult,
       };
 
-    case SET_ERROR: //actualiza errores
+    case RESET: //restablece la matriz fDrivers copiando todos los controladores en allDri
       return {
         ...state,
-        error: action.payload,
+        filteredDrivers: [...state.allDrivers],
       };
 
     default:

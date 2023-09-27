@@ -1,14 +1,14 @@
-import styles from "./card.module.css"
 import { NavLink } from "react-router-dom"
-
+import styles from "./card.module.css"
 
 export const Card = ({driver}) => {
-    const { forename,surname,image,teams,dob,id } = driver; //destructuring
+    const { forename,surname,image,teams,dob,id } = driver; 
+    
     const formatTeams = (teams) => {
-        if (typeof teams === 'string') {//si es cadena devuelvela
+        if (typeof teams === 'string') {
           return teams;
-        } else if (Array.isArray(driver.Teams)) {//si es una matriz mapea 
-          return driver.Teams.map(team => team.name).join(', ');//mapea sobre la driver.teams recupera la name prop de cada team
+        } else if (Array.isArray(driver.Teams)) {
+          return driver.Teams.map(team => team.name).join(', '); //mapea sobre la driver.teams recupera la name prop de cada team
         } else {
           return ''; //si no es ninguna devuelve una cadena vacia 
         }

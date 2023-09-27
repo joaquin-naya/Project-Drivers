@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./paginado.module.css";
 
-export default function Paginado({ driversPerPage, allDrivers, paginado, currentPage }) {
-  
+export const Paginado = ({ driversPerPage, allDrivers, paginado, currentPage }) => {
   const [displayPages, setDisplayPages] = useState([]);
 
   useEffect(() => {
     const totalPages = Math.ceil(allDrivers / driversPerPage);
-    const maxDisplayPages = 12; //numero de paginas visibles
+    const maxDisplayPages = 12; //Cantidad de páginas visibles
     let startPage = Math.max(currentPage - Math.floor(maxDisplayPages / 2), 1);
     let endPage = Math.min(startPage + maxDisplayPages - 1, totalPages);
 
@@ -23,15 +22,15 @@ export default function Paginado({ driversPerPage, allDrivers, paginado, current
     setDisplayPages(pages);
   }, [currentPage, allDrivers, driversPerPage]);
 
-  const [inputPage, setInputPage] = useState(""); //igresa el numero de pagina
+  const [inputPage, setInputPage] = useState("");
   const [errorInput, setErrorInput] = useState("");
 
   const handleInputChange = (event) => { 
-    setInputPage(event.target.value); //ingresa
-    setErrorInput(""); //borra
+    setInputPage(event.target.value); 
+    setErrorInput(""); 
   };
 
-  const handleGoToPage = () => { //rango 
+  const handleGoToPage = () => {
     const pageNumber = parseInt(inputPage, 10);
     if (pageNumber >= 1 && pageNumber <= Math.ceil(allDrivers / driversPerPage)) {
       paginado(pageNumber);
@@ -93,25 +92,3 @@ export default function Paginado({ driversPerPage, allDrivers, paginado, current
     </nav>
   );
 }
-
-// import React from "react"
-
-// export const Paginado = ({driversPerPage, allDrv, pages}) => {
-//     const pageNumbers = []
-//     for ( let i=1; i<=Math.ceil(allDrv/driversPerPage); i++) {
-//         pageNumbers.push(i)
-//     }
-//     return (
-//         <nav>
-//             <ul>
-//                 {
-//                     pageNumbers?.map(number => (
-//                         <li key={number}>
-//                             <p onClick={() => pages(number)}>{number}</p>
-//                         </li>
-//                     ))
-//                 }
-//             </ul>
-//         </nav>
-//     )
-// }

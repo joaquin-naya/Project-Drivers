@@ -1,15 +1,18 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import styles from "./detail.module.css";
+import { useParams, Link, useNavigate } from 'react-router-dom';
 const notFoundImage = "https://i.imgur.com/OGzwjjt.jpeg";
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import styles from "./detail.module.css";
+import axios from 'axios';
 
 export function Detail() {
-  const { id } = useParams();
   const [driver, setDriver] = useState({});
+  const dispatch = useDispatch();
+  const history = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
-    let formattedData={}
+    let formattedData = {}
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/drivers/${id}`);
@@ -18,7 +21,7 @@ export function Detail() {
         if (Object.keys(data).length === 0) {
           setDriver(null);
         } else {
-          if (data.createInDb) {
+          if (data.createdInDb) {
             formattedData = {
              ...data,
              image: data.image
@@ -31,40 +34,39 @@ export function Detail() {
           }
           setDriver(formattedData);
         }
-        
       } catch (error) {
-        console.error(error);
+        alert(error);
       }
     };
-
     fetchData();
   }, [id]);
 
   const formatTeams = (teams) => {
-  
     if (typeof teams === 'string') {
-      // Si es un string, ya está en el formato deseado
       return teams;
     } else if (Array.isArray(teams)) {
-      // Si es un array de objetos, convertirlo a cadena separada por comas
       return teams.map(team => team.name).join(', ');
     } else {
-      // Otros casos, retornar cadena vacía
       return '';
     }
   };
+
   const deleteHandler = async () => {
     try {
       const response = await axios.delete(`http://localhost:3001/drivers/${id}`);
-      history.push("/home");
+      if (response.status === 200) {
+        await dispatch(getDrivers());
+        alert("The driver was removed")
+        history.push("/home");
+      }  
     } catch (error) {
-      
+      alert(error)
     }
   }
  
   return (
     <div className={styles.detailContainer}>
-      {driver.createInDb ? (
+      {driver.createdInDb ? (
       <button className={styles.deleteButton} onClick={deleteHandler}>
           <span title='Delete the Driver from the database' role="img" aria-label="Foto" className={styles.imgIcon}>🗑️</span>
         </button>
@@ -73,10 +75,7 @@ export function Detail() {
           <span title='Cannot delete, belongs to API' role="img" aria-label="Foto" className={styles.imgIcon}>🗑️</span>
         </button>
       )}
-  
-      {/* <Link to="/home/update" className={styles.updateButton} title="Update Driver">
-         <span role="img" aria-label="Foto" className={styles.imgIcon}>↻</span>
-      </Link> */}
+
       <Link to="/home" className={styles.closeButton} title="Close Card">
          <span role="img" aria-label="Foto" className={styles.imgIcon}>&#10005;</span>
       </Link>
@@ -119,35 +118,3 @@ export function Detail() {
 }
 
 export default Detail;
-
-// import { useDispatch, useSelector } from "react-redux";
-// import { getDetail } from "../../redux/actions";
-// import { useParams } from "react-router-dom";
-// import { useEffect } from "react";
-
-// export const Detail = () => {
-//     const {id} = useParams()
-
-//     const dispatch = useDispatch()
-//     const drvId = useSelector(state => state.filteredDrivers)
-
-//     useEffect(() => {
-//         dispatch(getDetail(id))
-//     }, [dispatch, id])
-
-//     return (
-//         <>
-//             <h1>Esta es la vista de Detail...</h1>
-//             <ul>
-//                 <li>Nombre: {typeof drvId.name === "object" ? drvId.name.forename : drvId.forename || "N/A"}</li>
-//                 <li>Apellido: {drvId.surname || (drvId.name && drvId.name.surname) || "N/A"}</li>
-//                 <li>Nationality: {drvId.nationality}</li>
-//                 <li>Description: {drvId.description || "No hay contenido para este corredor..."}</li>
-//                 <li>Birthdate: {drvId.dob}</li>
-//                 <li>Escuderías: {drvId.teams}</li>
-//                 <img src={typeof drvId.image === "object" ? drvId.image.url : drvId.image}></img>
-//             </ul>
-//         </>
-//     )
-// }
-
