@@ -41,7 +41,7 @@ export const SearchBar = ({ onSearch, isChecked, handleCheckboxChange }) => { //
           className={styles['buttonLink']}
           onClick={handleSearch}
         >
-          <span  style={{marginLeft:"-10px"}} role="img" aria-label="search">F1</span>
+          <span  style={{marginLeft:"-10px"}} role="img" aria-label="search">Go</span>
         </button>
 
         <label className={styles.chekbox} title="If enabled it searches all pilots, and ignores currently applied filters.">
@@ -50,7 +50,7 @@ export const SearchBar = ({ onSearch, isChecked, handleCheckboxChange }) => { //
             onChange={handleCheckboxChange}
             type="checkbox"
           />
-          All Drivers
+          All drivers
         </label>
 
         <label className={styles.labelraya2}> | </label>

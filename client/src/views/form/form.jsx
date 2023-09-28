@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 const notFoundImage = "https://i.imgur.com/Ks7SbZt.png"
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { getAll } from "../../redux/actions";
 import { validate } from './validations';
 import styles from './form.module.css';
 import axios from "axios";
@@ -13,6 +14,7 @@ export function Form() {
   const [customTeam, setCustomTeam] = useState("");
   const teamInputRef = useRef(null);
   const history = useNavigate(); 
+  const dispatch = useDispatch()
 
   const [newDriver, setNewDriver] = useState({
     forename: "",
@@ -56,17 +58,17 @@ export function Form() {
     }
   };
 
-useEffect(() => {
-  if (selectedTeam) {
-    setNewDriver((prevState) => ({
-      ...prevState,
-      [teams]: selectedTeam
-    }))
-    validate(newDriver)}},[selectedTeam])
+  useEffect(() => {
+    if (selectedTeam) {
+      setNewDriver((prevState) => ({
+        ...prevState,
+        [teams]: selectedTeam
+      }))
+      validate(newDriver)}},[selectedTeam])
 
-  const handleCustomTeamChange = (event) => {
-    setCustomTeam(event.target.value);
-  };
+    const handleCustomTeamChange = (event) => {
+      setCustomTeam(event.target.value);
+    };
 
   const handleUndo = (event) => {
     event.preventDefault();
@@ -109,7 +111,7 @@ useEffect(() => {
 
   const handleCancel = (event) => {
     event.preventDefault()
-    history.push("/home");
+    history("/home");
     return 
   }
   
@@ -136,6 +138,7 @@ useEffect(() => {
         dob: newDriver.dob,
         teams: selectedTeam.join(", ")
       };
+
       
       axios.post('http://localhost:3001/drivers', formattedDriver)
         .then((response) => {
@@ -145,9 +148,9 @@ useEffect(() => {
             message: "The driver was saved correctly"
           }));
           setTimeout(() => {
-            history.push("/home");
+            history("/home");
           }, 1500);
-
+          dispatch(getAll())
         })
         .catch((error) => {
           setErrors(prevErrors => ({
@@ -165,8 +168,7 @@ useEffect(() => {
         <h2 style={{ marginTop: "-5px", color: "white" }}>Create New Driver {errors.ok}</h2>
         
         <div className={styles.campoImagen}>
-          {!newDriver.image && <img src={notFoundImage} alt="No image" />}
-          {newDriver.image && <img src={newDriver.image}  alt="Pic Driver" />}
+          {newDriver.image ? <img src={newDriver.image} alt="" /> : <img src={notFoundImage}  alt="" />}
         </div>
         
         <div className={styles.formField}>
@@ -207,7 +209,7 @@ useEffect(() => {
             )}
           
             <label >Date of Birth: </label>
-            <input style={{width:"75px"}} name="dob" type="text" onChange={handleChangeInput}/>
+            <input style={{width:"100px"}} name="dob" type="date" onChange={handleChangeInput}/>
             {errors.dob ? (
               <span className={styles.errorIcon} title={errors.dob}>
                 {'\u274C'}

@@ -81,6 +81,8 @@ form input[type="submit"]:hover {
     border-radius: 8%;
     border: solid rgb(109, 109, 122) 6px;
     overflow: hidden;
+	justify-content: center;
+	align-items: center;
 }
 
 .errorIcon {

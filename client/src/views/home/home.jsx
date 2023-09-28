@@ -6,6 +6,7 @@ import styles from "./home.module.css";
 
 export const Home = () => {
     const filteredDrivers = useSelector((state) => state.filteredDrivers);
+    const allDrivers = useSelector((state) => state.allDrivers);
     const teams = useSelector((state) => state.teams);
     const error = useSelector((state) => state.error);
     let dispatch = useDispatch()

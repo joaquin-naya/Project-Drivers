@@ -12,28 +12,16 @@ export function Detail() {
   const { id } = useParams();
 
   useEffect(() => {
-    let formattedData = {}
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3001/drivers/${id}`);
         const data = response.data;
+        console.log("data", data);
         
-        if (Object.keys(data).length === 0) {
-          setDriver(null);
-        } else {
-          if (data.createdInDb) {
-            formattedData = {
-             ...data,
-             image: data.image
-           };
-          } else {
-            formattedData = {
-              ...data,
-              image: data.image.url
-            };
-          }
-          setDriver(formattedData);
-        }
+        Object.keys(data).length === 0 
+        ? setDriver(null)
+        : setDriver(data)
+
       } catch (error) {
         alert(error);
       }
@@ -57,7 +45,7 @@ export function Detail() {
       if (response.status === 200) {
         await dispatch(getDrivers());
         alert("The driver was removed")
-        history.push("/home");
+        history("/home");
       }  
     } catch (error) {
       alert(error)
@@ -83,14 +71,14 @@ export function Detail() {
         <>
           <h3 className={styles.id}>{`${driver.id}`}</h3>
           {driver.name ? (
-            <h3 className={styles.nombre}>{`${driver.name.forename} ${driver.name.surname}`}</h3>
+            <h2 className={styles.nombre}>{`${driver.name.forename} ${driver.name.surname}`}</h2>
           ) : (
             <h3>{`${driver.forename} ${driver.surname}`}</h3>
           )}
           <h5 className={styles.nacionalidad}>{`${driver.nationality}`}</h5>
 
           <img
-            src={driver.image || notFoundImage}
+            src={driver.image}
             alt="Driver"
             className={styles.imagen}
           />

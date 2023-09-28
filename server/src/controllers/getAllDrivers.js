@@ -19,10 +19,11 @@ const getAllDrivers = async (name) => {
       forename: driver.forename,
       surname: driver.surname,
       description: driver.description,
-      image: driver.image?.url,
+      image: driver.image,
       nationality: driver.nationality,
       dob: driver.dob,
       teams: driver.Teams.map((team) => team.name).join(", "),
+      createdInDb: true,
     };
   });
 
@@ -38,6 +39,7 @@ const getAllDrivers = async (name) => {
       nationality: driver.nationality,
       dob: driver.dob,
       teams: driver.teams,
+      createdInDb: false,
     };
   });
 

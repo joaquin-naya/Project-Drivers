@@ -18,13 +18,6 @@ export const getAll = () => {
   };
 };
 
-export const getDetail = (id) => {
-  return async function (dispatch) {
-    let aux = await axios.get(`http://localhost:3001/drivers/${id}`);
-    return dispatch({ type: GET_DETAIL, payload: aux.data });
-  };
-};
-
 export const getTeams = () => {
   return async function (dispatch) {
     try {

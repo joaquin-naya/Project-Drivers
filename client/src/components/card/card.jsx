@@ -3,7 +3,7 @@ import styles from "./card.module.css"
 
 export const Card = ({driver}) => {
     const { forename,surname,image,teams,dob,id } = driver; 
-    
+
     const formatTeams = (teams) => {
         if (typeof teams === 'string') {
           return teams;

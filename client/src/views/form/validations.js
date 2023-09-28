@@ -1,4 +1,5 @@
 export const validate = (newDriver) => {
+  const reg = /^\d{4}[\/\-](0[1-9]|1[0-2])[\/\-](0[1-9]|[1-2][0-9]|3[0-1])$/;
   let errors = {
     forename: "",
     surname: "",
@@ -40,7 +41,7 @@ export const validate = (newDriver) => {
     errors.ok = false;
     errors.dob = "The dob is required";
   } else if (
-    /^\d{4}[\/\-](0[1-9]|1[0-2])[\/\-](0[1-9]|[1-2][0-9]|3[0-1])$/.test(
+    /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/.test(
       newDriver.dob
     )
   ) {
@@ -68,6 +69,6 @@ export const validate = (newDriver) => {
     errors.ok = false;
     errors.teams = "The teams is required";
   }
-  console.log(errors);
+
   return errors;
 };

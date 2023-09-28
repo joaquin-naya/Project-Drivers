@@ -23,7 +23,7 @@
 }
   
 .teams {
-  width: 180px;
+  justify-content: center;
   color: black;
 }
   
@@ -33,5 +33,6 @@
 }
 
 .fecha {
+  justify-content: center;
   color: black;
 }

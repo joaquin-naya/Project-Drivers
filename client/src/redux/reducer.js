@@ -14,6 +14,7 @@ import {
 let initialState = {
   allDrivers: [],
   filteredDrivers: [],
+  filteredByOrigin: [],
   teams: [],
   error: null,
 };
@@ -31,12 +32,6 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         teams: action.payload,
-      };
-
-    case GET_DETAIL:
-      return {
-        ...state,
-        filteredDrivers: action.payload,
       };
 
     case GET_DRIVERS_BY_NAME:
@@ -95,26 +90,17 @@ export const reducer = (state = initialState, action) => {
 
     case FILTER_ORIGIN:
       const origin = action.payload;
-      let filterByOrigin = [...state.filteredDrivers];
+      let filterByOrigin = state.allDrivers;
 
       if (origin === "api") {
-        filterByOrigin = state.filteredDrivers.filter(
-          (driver) => !("createdInDb" in driver)
-        );
+        let api = filterByOrigin?.filter((d) => !d.createdInDb);
+        return { ...state, filteredDrivers: api };
       } else if (origin === "db") {
-        filterByOrigin = state.filteredDrivers.filter(
-          (driver) => "createdInDb" in driver
-        );
+        let db = filterByOrigin?.filter((d) => d.createdInDb);
+        return { ...state, filteredDrivers: db };
+      } else if (origin === "all") {
+        return { ...state, filteredDrivers: filterByOrigin };
       }
-
-      if (!filterByOrigin || filterByOrigin.length === 0) {
-        throw new Error("No drivers with this filter");
-      }
-
-      return {
-        ...state,
-        filteredDrivers: filterByOrigin,
-      };
 
     case SEARCH_DRIVERS:
       const isChecked = action.payload.isChecked;
@@ -124,12 +110,12 @@ export const reducer = (state = initialState, action) => {
       if (isChecked === "all") {
         //determinamos si la busqueda se realiza en todos los controladores (isChecked = todos)
         searchResult = state.allDrivers.filter((driver) => {
-          return driver.forename.toLowerCase().startsWith(name.toLowerCase());
+          return driver.forename?.toLowerCase().startsWith(name.toLowerCase());
         });
       } else {
         //o solo en los controladores filtrados
         searchResult = state.filteredDrivers.filter((driver) => {
-          return driver.forename.toLowerCase().startsWith(name.toLowerCase());
+          return driver.forename?.toLowerCase().startsWith(name.toLowerCase());
         });
       }
 
