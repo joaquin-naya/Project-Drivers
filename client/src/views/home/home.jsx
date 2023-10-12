@@ -96,6 +96,7 @@ export const Home = () => {
       setSelectedOrigin(origin);
       localStorage.setItem("selectedOrigin", origin);
       dispatch(filterOrigin(origin));
+      setCurrentPage(1)
     };
 
     return (
